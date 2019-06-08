@@ -13,6 +13,7 @@ public class Ventana extends JFrame implements ActionListener{
 	private JCheckBox boxNinios, boxDescanso, boxRecreacion;
 	private DimensionesPantalla dimPan;
 	private JButton btnConstruir, btnSalir, btnProveer;
+	private VentanaProveer proveer;
 	
 	Ventana(){
 		
@@ -55,7 +56,7 @@ public class Ventana extends JFrame implements ActionListener{
 		panelBotones.setBounds(dimPan.PenX(1), dimPan.PenY(48), dimPan.PenX(59), dimPan.PenY(8.5F));
 		this.add(panelBotones);
 		
-		btnConstruir = new JButton("Contruir");
+		btnConstruir = new JButton("Construir");
 		btnConstruir.setBackground(Color.GREEN);
 		btnConstruir.setBounds(dimPan.PenX(50), dimPan.PenY(2F), dimPan.PenX(7), dimPan.PenY(4));
 		panelBotones.add(btnConstruir);
@@ -67,15 +68,14 @@ public class Ventana extends JFrame implements ActionListener{
 		panelBotones.add(btnSalir);
 		btnSalir.addActionListener(this);
 		
-		btnProveer = new JButton("Opciones");
-//		btnProveer.setBackground(C);
+		btnProveer = new JButton("Proveer");
 		btnProveer.setBounds(dimPan.PenX(25), dimPan.PenY(2F), dimPan.PenX(7), dimPan.PenY(4));
 		panelBotones.add(btnProveer);
 		btnProveer.addActionListener(this);
 
 	}
 	
-	private JLabel escribir(String texto, int tamanio, int x, int y){
+	public JLabel escribir(String texto, int tamanio, int x, int y){
 		JLabel letra = new JLabel(texto);
 		letra.setFont(new Font("Arial",0,tamanio));
 		letra.setBounds(x, y, dimPan.PenX(50), dimPan.PenY(7));
@@ -83,7 +83,7 @@ public class Ventana extends JFrame implements ActionListener{
 		return letra;
 	}
 	
-	private JLabel escribir(String texto, int x, int y){
+	public JLabel escribir(String texto, int x, int y){
 		JLabel letra = new JLabel(texto);
 		letra.setFont(new Font("Arial",0,dimPan.tamanioLetra(15)));
 		letra.setBounds(x, y, dimPan.PenX(50), dimPan.PenY(7));
@@ -101,6 +101,9 @@ public class Ventana extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnSalir){
 			System.exit(0);
+		}else if(e.getSource()==btnProveer){
+			proveer = new VentanaProveer(this, true);
+			proveer.setVisible(true);	
 		}else if(e.getSource()==btnConstruir){
 			System.out.println("Construyendo...");
 		}
