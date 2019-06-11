@@ -35,16 +35,16 @@ public class ListasPlan {
 		listaNinios.add("Sube y baja");
 		
 		listaRecreacion.add("Cancha polifuncional");
-			listaRecreacion.add("Arcos");
-			listaRecreacion.add("Tableros");
+//			listaRecreacion.add("Arcos");
+//			listaRecreacion.add("Tableros");
 		listaRecreacion.add("Ciclovia");
 		listaRecreacion.add("Fronton");
 		listaRecreacion.add("Pista de patinaje");
 		listaRecreacion.add("Kiosco");
 		
-		listaGeneral.add("Bancos");
-		listaGeneral.add("Iluninacion");
-		listaGeneral.add("Baños");
+		listaGeneral.add("Banca");
+		listaGeneral.add("Iluminacion");
+		listaGeneral.add("Baño");
 
 		listaAreas.add("Niños");
 		listaAreas.add("Recreacion");

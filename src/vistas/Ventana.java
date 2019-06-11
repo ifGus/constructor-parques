@@ -25,9 +25,7 @@ public class Ventana extends JFrame implements ActionListener {
 	private JTextArea txtArea, txtNinios, txtDescanso, txtRecreacion;
 	private ListasBinarias listaDeposito;
 	private Conexion con;
-//	public Runnable r;
-//	public Thread t;
-
+	
 	public Ventana() {
 
 		dimPan = new DimensionesPantalla();
@@ -96,7 +94,7 @@ public class Ventana extends JFrame implements ActionListener {
 		panelBotones.add(btnSalir);
 		btnSalir.addActionListener(this);
 
-		btnProveer = new JButton("Proveer");
+		btnProveer = new JButton("Depósito");
 		btnProveer.setBounds(dimPan.PenX(25), dimPan.PenY(2F), dimPan.PenX(7), dimPan.PenY(4));
 		panelBotones.add(btnProveer);
 		btnProveer.addActionListener(this);
@@ -156,7 +154,12 @@ public class Ventana extends JFrame implements ActionListener {
 		if (e.getSource() == btnSalir) {
 			System.exit(0);
 		} else if (e.getSource() == btnProveer) {
-			proveer = new VentanaProveer(this, true);
+			try {
+				proveer = new VentanaProveer(this, true);
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			proveer.setVisible(true);
 		} else if (e.getSource() == btnConstruir) {
 			

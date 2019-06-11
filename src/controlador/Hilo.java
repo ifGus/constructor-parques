@@ -1,6 +1,7 @@
 package controlador;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -16,6 +17,7 @@ public class Hilo implements Runnable {
 	private JTextArea txtNinios, txtDescanso, txtRecreacion;
 	private ListasBinarias lista;
 	private JLabel labelTrabajando;
+	private ListasBinarias registros;
 
 	public Hilo(JScrollPane scrollPane, JTextArea txtArea, Conexion con, JTextArea txtNiños, JTextArea txtDescanso, JTextArea txtRecreacion, JLabel labelTrabajando) {
 		this.txtArea = txtArea;
@@ -24,18 +26,19 @@ public class Hilo implements Runnable {
 		this.txtDescanso = txtDescanso;
 		this.txtRecreacion = txtRecreacion;
 		this.labelTrabajando = labelTrabajando;
+		registros = new ListasBinarias();
 		lista = new ListasBinarias();
 		lapso = 100;
 	}
 	
 	private void construido(String nombrePanel, String elemento){
 		elemento +=" => terminado";
-		if(nombrePanel.equals("'niños'")){
-			txtNinios.append(elemento + '\n');
+		if(nombrePanel.equals("niños")){
+			txtNinios.append("+ "+elemento + '\n');
 		}else if(nombrePanel.equals("descanso")){
-			txtDescanso.append(elemento + '\n');
+			txtDescanso.append("+ "+elemento + '\n');
 		}else{
-			txtRecreacion.append(elemento+'\n');
+			txtRecreacion.append("+ "+elemento+'\n');
 		}
 	}
 
@@ -46,7 +49,7 @@ public class Hilo implements Runnable {
 
 		String area = "";
 		// txtArea.append("¿?"+ '\n');
-		for (int j = 1; j <= 25; j++) {
+		for (int j = 1; j <= 28; j++) {
 
 			if (!area.equalsIgnoreCase(con.getConsultaPersonal("es_del_area(" + j + ",X)"))) {
 				area = con.getConsultaPersonal("es_del_area(" + j + ",X)");
@@ -92,32 +95,46 @@ public class Hilo implements Runnable {
 			} catch (InterruptedException e) {
 			}
 			
-			
-			txtArea.append("   Llevar " +con.getConsultaPersonal("es_elemento(" + j + ",X)")+ " hacia " +con.getConsultaPersonal("ejecutar(" + j + ",X)")+ '\n');
 			try {
-				Thread.sleep(lapso);
-			} catch (InterruptedException e) {
-			}
-			
-			txtArea.append("   Construyendo " + con.getConsultaPersonal("es_elemento(" + j + ",X)") + " en "
-					+ con.getConsultaPersonal("ejecutar(" + j + ",X)") + "..." + '\n');
-			try {
-				Thread.sleep(lapso);
-			} catch (InterruptedException e) {
-			}
+				if(new ExistenciaCadenaEnLista().exite(registros.getListaAreaNinios(), con.getConsultaPersonal("es_elemento(" + j + ",X)"))
+				|| new ExistenciaCadenaEnLista().exite(registros.getListaAreaRecreacion(), con.getConsultaPersonal("es_elemento(" + j + ",X)"))
+				|| new ExistenciaCadenaEnLista().exite(registros.getListaAreaDescanso(), con.getConsultaPersonal("es_elemento(" + j + ",X)"))
+				|| new ExistenciaCadenaEnLista().exite(registros.getListaGeneral(), con.getConsultaPersonal("es_elemento(" + j + ",X)"))
+				){
+					
+						txtArea.append("   Llevar " +con.getConsultaPersonal("es_elemento(" + j + ",X)")+ " hacia " +con.getConsultaPersonal("ejecutar(" + j + ",X)")+ '\n');
+						try {
+							Thread.sleep(lapso);
+						} catch (InterruptedException e) {
+						}
+						
+						txtArea.append("   Construyendo " + con.getConsultaPersonal("es_elemento(" + j + ",X)") + " en "
+								+ con.getConsultaPersonal("ejecutar(" + j + ",X)") + "..." + '\n');
+						try {
+							Thread.sleep(lapso);
+						} catch (InterruptedException e) {
+						}
 
-			txtArea.append("   Elemento " + con.getConsultaPersonal("es_elemento(" + j + ",X)") + " instalado en "
-					+ con.getConsultaPersonal("ejecutar(" + j + ",X)") + " correctamente" + '\n'+'\n');
-			try {
-				Thread.sleep(lapso);
-			} catch (InterruptedException e) {
+						txtArea.append("   Elemento " + con.getConsultaPersonal("es_elemento(" + j + ",X)") + " instalado en "
+								+ con.getConsultaPersonal("ejecutar(" + j + ",X)") + " correctamente" + '\n'+'\n');
+						try {
+							Thread.sleep(lapso);
+						} catch (InterruptedException e) {
+						}
+						
+						construido(con.getConsultaPersonal("es_del_area("+ j +",X)"), con.getConsultaPersonal("es_elemento("+ j +",X)"));
+				}else{
+					txtArea.append("     (No existe) No se encontró el elemento "+con.getConsultaPersonal("es_elemento(" + j + ",X)")+" en el depósito!"+'\n'+'\n');
+				}
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Inconsistencia de datos!!");
+				e.printStackTrace();
 			}
-			
-			construido(con.getConsultaPersonal("es_del_area("+ j +",X)"), con.getConsultaPersonal("es_elemento("+ j +",X)"));
 			
 		}
 
-		txtArea.append('\n' + " PARQUE TERMINADO");
+		txtArea.append('\n' + " TRABAJO TERMINADO");
 		labelTrabajando.setText("En reposo");
 
 	}

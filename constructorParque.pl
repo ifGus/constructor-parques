@@ -70,9 +70,14 @@ vecino('recreacion','descanso').
 
 
 %Instalaciones generales
-instalar('iluminacion','niños').
-instalar('iluminacion','recreacion').
-instalar('iluminacion','descanso').
+instalar('iluminacion','niños',23).
+instalar('iluminacion','recreacion',24).
+instalar('iluminacion','descanso',25).
+
+instalar('banca','niños',26).
+instalar('banca','recreacion',27).
+instalar('banca','descanso',28).
+
 
 %orden de ejecucion por prioridad
 ejecutar(1,'a1').
@@ -102,6 +107,11 @@ ejecutar(23,'niños').
 ejecutar(24,'recreacion').
 ejecutar(25,'descanso').
 
+ejecutar(26,'niños').
+ejecutar(27,'recreacion').
+ejecutar(28,'descanso').
+
+
 %Condiciones
 es_del_area(Y,X):- area(X),subarea(M,X),sobre(Y,M).  %saber el area al que corresponde segun el objeto a instalar
 es_del_area(Y,X):- area(X),ejecutar(Y,M),subarea(M,X).
@@ -113,8 +123,8 @@ vecino_de(X,Y):- vecino(X,Y).
 vecino_de(X,Y):- vecino(Y,X).
 
 es_elemento(X,Y):- ejecutar(X,Z),sobre(Y,Z).
-es_elemento(X,Y):- instalar(Y,M), ejecutar(X,M).  %Caso iluminacion
-
+%es_elemento(X,Y):- ejecutar(X,M),poner(Y,M). % caso banco
+es_elemento(X,Y):- ejecutar(X,M),instalar(Y,M,X).  %Caso iluminacion
 
 
 

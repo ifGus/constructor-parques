@@ -20,6 +20,7 @@ public class ListasBinarias implements Serializable  {
 	private String nombreArchivoAreas;
 	
 	public ListasBinarias(){
+		
 		nombreArchivoNiños = "planAreaNinios";
 		nombreArchivoDescanso = "planAreaDescanso";
 		nombreArchivoRecreacion = "planAreaRecreacion";
@@ -94,11 +95,6 @@ public class ListasBinarias implements Serializable  {
 			return new ArrayList<String>();
 		}
 
-	}
-	
-	public static void main(String args []) throws ClassNotFoundException{
-		ListasBinarias l = new ListasBinarias();
-		System.out.println("El elemento: "+l.getListaAreas().get(0));
 	}
 
 }

@@ -49,10 +49,20 @@ public class Conexion {
 //	        System.out.println(q2.oneSolution().get("X").toString());
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("=========================>" +consulta);
+//			System.out.println("=========================>" +consulta);
 			resultado = "error";
 		}
-	
+		resultado = quitarComillaSimple(resultado);
 		return resultado;
+	}
+	
+	private String quitarComillaSimple(String texto){
+		String letra = "";
+		for (int i = 0; i < texto.length(); i++) {
+			if(texto.charAt(i) != "'".charAt(0)){
+				letra +=texto.charAt(i);
+			}
+		}
+		return letra;
 	}
 }
