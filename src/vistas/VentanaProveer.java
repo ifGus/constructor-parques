@@ -1,11 +1,13 @@
 package vistas;
 import java.awt.BorderLayout;
+import controlador.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import controlador.*;
 
 import complementos.DimensionesPantalla;
 
@@ -17,11 +19,8 @@ public class VentanaProveer extends JDialog implements ActionListener{
 	private Ventana textos;
 	private JPanel [] paneles;
 	
-	private ArrayList<String> listaNinios;
-	private ArrayList<String> listaRecreacion;
-	private ArrayList<String> listaDescanso;
-	private ArrayList<String> listaGeneral;
-	private ArrayList<String> listaAreas;
+	private ListasPlan listas;
+	private ListasBinarias registro;
 	
 	private JCheckBox []  checksNinios;
 	private JCheckBox []  checksRecreacion;
@@ -32,8 +31,7 @@ public class VentanaProveer extends JDialog implements ActionListener{
 	public VentanaProveer(Ventana ventana, boolean llave) {
 		
 		super(ventana, llave);
-		// TODO Auto-generated constructor stub
-//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		this.setTitle("Elementos");
 		dimPan = new DimensionesPantalla();
 		this.setSize(dimPan.PenX(55), dimPan.PenY(40));
@@ -41,101 +39,79 @@ public class VentanaProveer extends JDialog implements ActionListener{
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
 	
-		this.getContentPane().setBackground(new Color(67, 67, 67));	
+//		this.getContentPane().setBackground(new Color(67, 67, 67));	
 		
 		textos = new Ventana();
-		JLabel titulo = textos.escribir("Selecciona los elementos para el agente constructor", dimPan.tamanioLetra(18),dimPan.PenX(2), dimPan.PenY(0.5F));
-		titulo.setForeground(Color.WHITE);
+		JLabel titulo = textos.escribir("DISPONIBILIDAD EN EL DEPÓSITO", dimPan.tamanioLetra(18),dimPan.PenX(2), dimPan.PenY(0.5F));
+		titulo.setForeground(Color.DARK_GRAY);
 		titulo.setFont(new Font("Ariel", 3, dimPan.tamanioLetra(20)));
 		this.add(titulo, BorderLayout.NORTH);
 		
-		listaNinios = new ArrayList<String>();
-		listaRecreacion = new ArrayList<String>();
-		listaDescanso = new ArrayList<String>();
-		listaGeneral = new ArrayList<String>();
-		listaAreas = new ArrayList<String>();
+		listas = new ListasPlan();
+		registro = new ListasBinarias();
 		
-		listaNinios.add("Resbalin");
-		listaNinios.add("Columpio");
-		listaNinios.add("Pasamanos");
-		listaNinios.add("Tobogan");
-		listaNinios.add("Carrucel");
-		listaNinios.add("Kiosco");
-		listaNinios.add("Piscina");
+		checksNinios = new JCheckBox[listas.getListaNinios().size()];
+		checksRecreacion = new JCheckBox[listas.getListaRecreacion().size()];
+		checksDescanso = new JCheckBox[listas.getListaDescanso().size()];
+		checksGeneral = new JCheckBox[listas.getListaGeneral().size()];
+		checksAreas = new JCheckBox[listas.getListaAreas().size()];
 		
-		listaRecreacion.add("Cancha polifuncional");
-			listaRecreacion.add("Arcos");
-			listaRecreacion.add("Tableros");
-		listaRecreacion.add("Ciclovia");
-		listaRecreacion.add("Fronton");
-		listaRecreacion.add("Pista de patinaje");
-		listaRecreacion.add("Kiosco");
-		
-		listaDescanso.add("Jardines");
-		listaDescanso.add("Churrasqueras");
-		listaDescanso.add("Funetes de agua");
-		listaDescanso.add("Snack");
-		listaDescanso.add("Mesas de cemento");
-		listaDescanso.add("Arboles");
-		
-		listaGeneral.add("Bancos");
-		listaGeneral.add("Iluninacion");
-		listaGeneral.add("Baños");
-
-		listaAreas.add("Área de niños");
-		listaAreas.add("Área recreativa");
-		listaAreas.add("Área de descanso");
-		
-		checksNinios = new JCheckBox[listaNinios.size()];
-		checksRecreacion = new JCheckBox[listaRecreacion.size()];
-		checksDescanso = new JCheckBox[listaDescanso.size()];
-		checksGeneral = new JCheckBox[listaGeneral.size()];
-		checksAreas = new JCheckBox[listaAreas.size()];
-		
-		
-		checksNinios = new JCheckBox [listaNinios.size()];
 		for(int i = 0; i < checksNinios.length; i ++) {
-			checksNinios[i] = new JCheckBox(listaNinios.get(i));
+			checksNinios[i] = new JCheckBox(listas.getListaNinios().get(i));
 			checksNinios[i].setSelected(true);
 		}
-		
-		checksRecreacion = new JCheckBox [listaRecreacion.size()];
+
 		for(int i = 0; i < checksRecreacion.length; i ++) {
-			checksRecreacion[i] = new JCheckBox(listaRecreacion.get(i));
+			checksRecreacion[i] = new JCheckBox(listas.getListaRecreacion().get(i));
 			checksRecreacion[i].setSelected(true);
 		}
-		
-		checksDescanso = new JCheckBox [listaDescanso.size()];
+
 		for(int i = 0; i < checksDescanso.length; i ++) {
-			checksDescanso[i] = new JCheckBox(listaDescanso.get(i));
+			checksDescanso[i] = new JCheckBox(listas.getListaDescanso().get(i));
 			checksDescanso[i].setSelected(true);
 		}
-		
-		checksGeneral = new JCheckBox [listaGeneral.size()];
+
 		for(int i = 0; i < checksGeneral.length; i ++) {
-			checksGeneral[i] = new JCheckBox(listaGeneral.get(i));
+			checksGeneral[i] = new JCheckBox(listas.getListaGeneral().get(i));
 			checksGeneral[i].setSelected(true);
 		}
-		
-		checksAreas = new JCheckBox [listaAreas.size()];
+
 		for(int i = 0; i < checksAreas.length; i ++) {
-			checksAreas[i] = new JCheckBox(listaAreas.get(i));
+			checksAreas[i] = new JCheckBox(listas.getListaAreas().get(i));
 			checksAreas[i].setSelected(true);
 		}
 		
 		paneles = new JPanel [7];
 		paneles[0] = new JPanel();
-		paneles[0].setBackground(new Color(132, 99, 142));
+//		paneles[0].setBackground(new Color(132, 99, 142));
 		paneles[0].setLayout(new GridLayout());
 		
 		this.add(paneles[0], BorderLayout.CENTER);
 		for(int i = 1; i < paneles.length; i ++) {
 			paneles[i] = new JPanel();
-//			paneles[i].setLayout(new GridLayout(7, 2));
-			if((i%2) == 0) {
-				paneles[i].setBackground(new Color(10, 186, 181));
-			}else paneles[i].setBackground(Color.GRAY);
-			
+//			if((i%2) == 0) {
+//				paneles[i].setBackground(new Color(10, 186, 181));
+//				paneles[i].setBackground(Color.DARK_GRAY);
+				switch (i) {
+				case 1:
+					paneles[i].setBorder(javax.swing.BorderFactory.createTitledBorder("Niños"));
+					break;
+				case 2:
+					paneles[i].setBorder(javax.swing.BorderFactory.createTitledBorder("Recreación"));
+					break;
+				case 3:
+					paneles[i].setBorder(javax.swing.BorderFactory.createTitledBorder("Descanso"));
+					break;
+				case 4:
+					paneles[i].setBorder(javax.swing.BorderFactory.createTitledBorder("General"));
+					break;
+				case 5:
+					paneles[i].setBorder(javax.swing.BorderFactory.createTitledBorder("Áreas"));
+					break;
+				default:
+					break;
+				}
+
 			if(i<=paneles.length-1) {
 				paneles[0].add(paneles[i], BorderLayout.CENTER);
 			}
@@ -158,35 +134,36 @@ public class VentanaProveer extends JDialog implements ActionListener{
 	
 //	public void generarCheck() {
 	public void generarCheck() {
-		paneles[1].add(textos.escribir("Área de niños                     ", 0, 0));
+//		paneles[1].add(textos.escribir("Área de niños                 ", 0, 0));
 		for (int i = 0; i < checksNinios.length; i++) {
-			checksNinios[i].setBackground(Color.GRAY);
+//			checksNinios[i].setBackground(Color.GRAY);
 			paneles[1].add(checksNinios[i]);
 		}
 		
-		paneles[2].add(textos.escribir("Área de recreación              ", 0, 0));
+//		paneles[2].add(textos.escribir("Área de recreación           ", 0, 0));
 		for (int i = 0; i < checksRecreacion.length; i++) {
-			checksRecreacion[i].setBackground(new Color(10, 186, 181));
+//			checksRecreacion[i].setBackground(new Color(10, 186, 181));
 			paneles[2].add(checksRecreacion[i]);
 		}
 		
-		paneles[3].add(textos.escribir("Área de descanso                ", 0, 0));
+//		paneles[3].add(textos.escribir("Área de descanso             ", 0, 0));
 		for (int i = 0; i < checksDescanso.length; i++) {
-			checksDescanso[i].setBackground(Color.GRAY);
+//			checksDescanso[i].setBackground(Color.GRAY);
 			paneles[3].add(checksDescanso[i]);
 		}
 		
-		paneles[4].add(textos.escribir("Área de general                   ", 0, 0));
+//		paneles[4].add(textos.escribir("General                 ", 0, 0));
 		for (int i = 0; i < checksGeneral.length; i++) {
-			checksGeneral[i].setBackground(new Color(10, 186, 181));
+//			checksGeneral[i].setBackground(new Color(10, 186, 181));
 			paneles[4].add(checksGeneral[i]);
 		}
 		
-		paneles[5].add(textos.escribir("Áreas                             ", 0, 0));
+//		paneles[5].add(textos.escribir("Áreas                        ", 0, 0));
 		for (int i = 0; i < checksAreas.length; i++) {
-			checksAreas[i].setBackground(Color.GRAY);
+//			checksAreas[i].setBackground(Color.GRAY);
 			paneles[5].add(checksAreas[i]);
 		}
+		
 	}
 	
 	@Override
@@ -195,46 +172,24 @@ public class VentanaProveer extends JDialog implements ActionListener{
 		if(e.getSource()==btnCancelar) {
 			this.dispose();
 		}else {
-			
-			System.out.println();
-			System.out.println("AREA DE NIÑOS");
-			for (int i = 0; i < checksNinios.length; i++) {
-				if(checksNinios[i].isSelected()) {
-					System.out.println(checksNinios[i].getText());
-				}
-			}
-			
-			System.out.println();
-			System.out.println("AREA DE RECREACION");
-			for (int i = 0; i < checksRecreacion.length; i++) {
-				if(checksRecreacion[i].isSelected()) {
-					System.out.println(checksRecreacion[i].getText());
-				}
-			}
-			
-			System.out.println();
-			System.out.println("AREA DE DESCANSO");
-			for (int i = 0; i < checksDescanso.length; i++) {
-				if(checksDescanso[i].isSelected()) {
-					System.out.println(checksDescanso[i].getText());
-				}
-			}
-			
-			System.out.println();
-			System.out.println("AREAS GENERALES");
-			for (int i = 0; i < checksGeneral.length; i++) {
-				if(checksGeneral[i].isSelected()) {
-					System.out.println(checksGeneral[i].getText());
-				}
-			}
-			System.out.println();
-			System.out.println("AREAS");
-			for (int i = 0; i < checksAreas.length; i++) {
-				if(checksAreas[i].isSelected()) {
-					System.out.println(checksAreas[i].getText());
-				}
+			registro.setListaAreaDescanso(seleccionados(checksDescanso));
+			registro.setListaAreaNinios(seleccionados(checksNinios));
+			registro.setListaAreaRecreacion(seleccionados(checksRecreacion));
+			registro.setListaAreas(seleccionados(checksAreas));
+			registro.setListaGeneral(seleccionados(checksGeneral));
+
+			this.dispose();
+		}
+	}
+	
+	private ArrayList<String> seleccionados( JCheckBox [] seleccionados){
+		ArrayList<String> lista = new ArrayList<>();
+		for (int i = 0; i < seleccionados.length; i++) {
+			if(seleccionados[i].isSelected()){
+				lista.add(seleccionados[i].toString());
 			}
 		}
+		return lista;
 	}
 	
 }
