@@ -1,5 +1,6 @@
 package controlador;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -14,15 +15,17 @@ public class Hilo implements Runnable {
 	private int lapso;
 	private JTextArea txtNinios, txtDescanso, txtRecreacion;
 	private ListasBinarias lista;
+	private JLabel labelTrabajando;
 
-	public Hilo(JScrollPane scrollPane, JTextArea txtArea, Conexion con, JTextArea txtNiños, JTextArea txtDescanso, JTextArea txtRecreacion) {
+	public Hilo(JScrollPane scrollPane, JTextArea txtArea, Conexion con, JTextArea txtNiños, JTextArea txtDescanso, JTextArea txtRecreacion, JLabel labelTrabajando) {
 		this.txtArea = txtArea;
 		this.con = con;
 		this.txtNinios = txtNiños;
 		this.txtDescanso = txtDescanso;
 		this.txtRecreacion = txtRecreacion;
+		this.labelTrabajando = labelTrabajando;
 		lista = new ListasBinarias();
-		lapso = 10;
+		lapso = 100;
 	}
 	
 	private void construido(String nombrePanel, String elemento){
@@ -47,6 +50,7 @@ public class Hilo implements Runnable {
 
 			if (!area.equalsIgnoreCase(con.getConsultaPersonal("es_del_area(" + j + ",X)"))) {
 				area = con.getConsultaPersonal("es_del_area(" + j + ",X)");
+				labelTrabajando.setText("Trabajando en: "+area);
 				txtArea.append('\n' + "DIRIGIENDOSE AL AREA " + area + "..." + '\n');
 				try {
 					Thread.sleep(lapso);
@@ -114,6 +118,7 @@ public class Hilo implements Runnable {
 		}
 
 		txtArea.append('\n' + " PARQUE TERMINADO");
+		labelTrabajando.setText("En reposo");
 
 	}
 }

@@ -170,7 +170,7 @@ public class Ventana extends JFrame implements ActionListener {
 			try {
 				 Runnable r;
 				 Thread t;
-				r = new Hilo(scrollPane, txtArea, con, txtNinios, txtDescanso, txtRecreacion);
+				r = new Hilo(scrollPane, txtArea, con, txtNinios, txtDescanso, txtRecreacion, labelTrabajando);
 				t = new Thread(r);
 				t.start();
 			} catch (Exception e1) {
